@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Transform playerPaddle;
     public Transform enemyPaddle;
     public Text textEndGame;
+    public AudioSource winSound;
 
     public float countdownTime = 3f;
     public Text countdownText;
@@ -93,6 +94,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
+        winSound.Play();
         screenEndGame.SetActive(true);
         bool playerWon = playerScore > enemyScore;
         string winner = SaveController.Instance.GetName(playerWon);
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour
             winner = playerWon ? "Player 1" : "Player 2";
         textEndGame.text = "Winner: " + winner;
         SaveController.Instance.SaveWinner(winner);
-        Invoke("LoadMenu", 5f);
+        Invoke("LoadMenu", 4f);
     }
 
     private void LoadMenu()

@@ -8,6 +8,10 @@ public class BallController : MonoBehaviour
     private Rigidbody2D rb;
     public float speed = 7f;
 
+    public AudioSource hitSound;
+    public AudioSource scoreSound;
+
+
     public void PlaceAtCenter()
     {
         transform.position = Vector3.zero;
@@ -46,14 +50,20 @@ public class BallController : MonoBehaviour
         if (collision.gameObject.CompareTag("Player") || collision.gameObject.CompareTag("Enemy"))
         {
             rb.velocity = new Vector2(-rb.velocity.x, rb.velocity.y);
+            hitSound.pitch = Random.Range(0.7f, 1.3f);
+            hitSound.Play();
         }
         if (collision.gameObject.CompareTag("WallPlayer"))
         {
             gameManager.ScoreEnemy();
+            scoreSound.pitch = Random.Range(0.7f, 1.3f);
+            scoreSound.Play();
         }
         if (collision.gameObject.CompareTag("WallEnemy"))
         {
             gameManager.ScorePlayer();
+            scoreSound.pitch = Random.Range(0.7f, 1.3f);
+            scoreSound.Play();
         }
     }
 }
