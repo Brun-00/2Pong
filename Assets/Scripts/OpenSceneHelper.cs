@@ -1,0 +1,16 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class OpenSceneHelper : MonoBehaviour
+{
+    public string sceneToOpen;
+
+    public void OpenScene()
+    {
+        Debug.Log("Opening scene: " + sceneToOpen);
+        SceneManager.LoadScene(sceneToOpen);
+    }
+
+}
