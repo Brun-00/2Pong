@@ -5,6 +5,8 @@ using UnityEngine;
 public class EnemyPaddleController : MonoBehaviour
 {
     private Rigidbody2D rb;
+
+    // Controls how fast the paddle follows the ball.
     public float speed = 3f;
 
     private GameObject ball;
@@ -17,11 +19,22 @@ public class EnemyPaddleController : MonoBehaviour
 
     private void Update()
     {
-        if(ball !=null)
+        if (ball != null)
         {
+            // Keeps the paddle within the playable vertical area.
             float targetY = Mathf.Clamp(ball.transform.position.y, -4f, 4f);
-            Vector2 targetPosition = new Vector2(transform.position.x, targetY);
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);   
+
+            Vector2 targetPosition = new Vector2(
+                transform.position.x,
+                targetY
+            );
+
+            // Smoothly moves the paddle toward the ball's Y position.
+            transform.position = Vector2.MoveTowards(
+                transform.position,
+                targetPosition,
+                Time.deltaTime * speed
+            );
         }
     }
 }

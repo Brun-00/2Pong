@@ -9,8 +9,12 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
+        // Resets the current match data before entering the menu.
         SaveController.Instance.Reset();
+
         string lastWinner = SaveController.Instance.GetLastWinner();
+
+        // Shows the winner of the previous match, if there is one.
         if (lastWinner != "")
             uiWinner.text = "Last Winner: " + lastWinner;
         else

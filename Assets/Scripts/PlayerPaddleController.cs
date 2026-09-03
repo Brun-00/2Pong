@@ -13,6 +13,7 @@ public class PlayerPaddleController : MonoBehaviour
 
     void Start()
     {
+        // Applies the color selected by the player to the correct paddle.
         if (isPlayer)
             spriteRenderer.color = SaveController.Instance.colorPlayer;
         else
@@ -23,8 +24,10 @@ public class PlayerPaddleController : MonoBehaviour
     {
         float moveInput = Input.GetAxis(movementAxisName);
 
-        Vector3 newPosition = transform.position + Vector3.up * moveInput * speed * Time.deltaTime;
+        Vector3 newPosition = transform.position
+            + Vector3.up * moveInput * speed * Time.deltaTime;
 
+        // Keeps the paddle inside the playable area.
         newPosition.y = Mathf.Clamp(newPosition.y, -4f, 4f);
 
         transform.position = newPosition;

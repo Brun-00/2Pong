@@ -9,13 +9,18 @@ public class GameManager : MonoBehaviour
 {
     public BallController ballController;
     public GameObject screenEndGame;
+
     public int winPoints;
+
     public int playerScore = 0;
     public int enemyScore = 0;
+
     public Text playerScoreText;
     public Text enemyScoreText;
+
     public Transform playerPaddle;
     public Transform enemyPaddle;
+
     public Text textEndGame;
     public AudioSource winSound;
 
@@ -32,10 +37,13 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame()
     {
+        // Resets both scores and starts the first round.
         playerScore = 0;
         enemyScore = 0;
+
         enemyScoreText.text = enemyScore.ToString();
         playerScoreText.text = playerScore.ToString();
+
         StartNewRound();
     }
 
@@ -46,11 +54,15 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator NewRoundRoutine()
     {
+        // Resets the paddles and ball before each round.
         playerPaddle.position = playerStartPosition;
         enemyPaddle.position = enemyStartPosition;
+
         ballController.PlaceAtCenter();
 
         float timer = countdownTime;
+
+        // Gives both players a short countdown before the ball is launched.
         while (timer > 0f)
         {
             if (countdownText != null)
@@ -70,6 +82,8 @@ public class GameManager : MonoBehaviour
     {
         playerScore++;
         playerScoreText.text = playerScore.ToString();
+
+        // Starts another round unless the player has already won.
         if (!CheckWin())
             StartNewRound();
     }
@@ -78,17 +92,21 @@ public class GameManager : MonoBehaviour
     {
         enemyScore++;
         enemyScoreText.text = enemyScore.ToString();
+
+        // Starts another round unless the enemy has already won.
         if (!CheckWin())
             StartNewRound();
     }
 
     public bool CheckWin()
     {
+        // Checks whether either player has reached the required score.
         if (enemyScore >= winPoints || playerScore >= winPoints)
         {
             EndGame();
             return true;
         }
+
         return false;
     }
 
@@ -96,12 +114,22 @@ public class GameManager : MonoBehaviour
     {
         winSound.Play();
         screenEndGame.SetActive(true);
+
+        // Determines the winner based on the final score.
         bool playerWon = playerScore > enemyScore;
+
         string winner = SaveController.Instance.GetName(playerWon);
+
+        // Uses a default name if no custom name was entered.
         if (string.IsNullOrEmpty(winner))
             winner = playerWon ? "Player 1" : "Player 2";
+
         textEndGame.text = "Winner: " + winner;
+
+        // Saves the winner so it can be displayed in the main menu.
         SaveController.Instance.SaveWinner(winner);
+
+        // Returns to the main menu after displaying the result.
         Invoke("LoadMenu", 4f);
     }
 
